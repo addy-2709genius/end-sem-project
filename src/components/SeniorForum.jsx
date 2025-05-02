@@ -28,41 +28,46 @@ const SeniorForum = () => {
   const handleCommentSubmit = () => {
     if (comment.trim() === "") {
       alert("Please write something before submitting!");
-    } else {
-      setSubmittedComments([...submittedComments, comment]);
-      setComment("");
+      return;
     }
+    setSubmittedComments([...submittedComments, comment]);
+    setComment("");
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">Senior Forum</h2>
-        <p className="text-xl text-gray-600 mb-8">Welcome to the senior discussion space!</p>
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Senior Forum</h2>
+          <p className="text-xl text-gray-600">Welcome to the senior discussion space!</p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left side - Senior Announcements */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Senior Announcements</h3>
+            <h3 className="text-2xl font-semibold text-gray-900">Senior Announcements</h3>
             {seniorAnnouncements.map((announcement) => (
-              <div
+              <motion.div
                 key={announcement.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
-                <h4 className="text-xl font-semibold mb-2">{announcement.title}</h4>
+                <h4 className="text-xl font-semibold mb-3">{announcement.title}</h4>
                 <p className="text-gray-600">{announcement.content}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Right side - Comment Section */}
-          <div className="bg-blue-50 rounded-lg shadow-md p-6">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Leave a Comment about Your Day</h3>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Leave a Comment</h3>
             <textarea
               value={comment}
               onChange={handleCommentChange}
               placeholder="What's on your mind?"
-              className="w-full p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
+              className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none mb-4"
               rows="6"
             />
             <button
@@ -72,43 +77,46 @@ const SeniorForum = () => {
               Submit Comment
             </button>
 
-            {/* Displaying Submitted Comments */}
+            {/* Comments Display */}
             <div className="mt-8">
-              <h4 className="text-xl font-semibold text-gray-800 mb-4">Your Comments:</h4>
+              <h4 className="text-xl font-semibold text-gray-900 mb-4">Comments</h4>
               {submittedComments.length === 0 ? (
-                <p className="text-gray-600">No comments yet. Be the first to share!</p>
+                <p className="text-gray-500">No comments yet. Be the first to share!</p>
               ) : (
-                <ul className="space-y-4">
+                <div className="space-y-4">
                   {submittedComments.map((comment, index) => (
-                    <li
+                    <motion.div
                       key={index}
-                      className="bg-white p-4 rounded-lg shadow-sm"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-gray-50 p-4 rounded-lg"
                     >
                       <p className="text-gray-700">{comment}</p>
-                    </li>
+                    </motion.div>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
           </div>
         </div>
 
         {/* Bottom Section - Our Seniors */}
-        <div className="mt-12 bg-gray-800 rounded-lg p-8">
-          <h3 className="text-2xl font-semibold text-white text-center mb-8">Our Seniors</h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+        <div className="mt-16">
+          <h3 className="text-3xl font-bold text-center text-gray-900 mb-8">Our Seniors</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {seniorPhotos.map((photo, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.2 }}
-                className="overflow-hidden rounded-lg"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="relative overflow-hidden rounded-lg shadow-md aspect-w-1 aspect-h-1"
               >
                 <img
                   src={photo}
                   alt={`Senior ${idx + 1}`}
-                  className="w-full h-auto rounded-lg hover:scale-105 transition-transform"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
                 />
               </motion.div>
             ))}
