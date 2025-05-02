@@ -1,5 +1,23 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
 
 // Dummy Data for Senior Announcements
 const seniorAnnouncements = [
@@ -36,33 +54,55 @@ const SeniorForum = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
+      <motion.div 
+        className="max-w-7xl mx-auto"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        <motion.div 
+          className="text-center mb-12"
+          variants={itemVariants}
+        >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Senior Forum</h2>
           <p className="text-xl text-gray-600">Welcome to the senior discussion space!</p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left side - Senior Announcements */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold text-gray-900">Senior Announcements</h3>
+          <motion.div 
+            className="space-y-6"
+            variants={containerVariants}
+          >
+            <motion.h3 
+              className="text-2xl font-semibold text-gray-900"
+              variants={itemVariants}
+            >
+              Senior Announcements
+            </motion.h3>
             {seniorAnnouncements.map((announcement) => (
               <motion.div
                 key={announcement.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+                variants={itemVariants}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
               >
                 <h4 className="text-xl font-semibold mb-3">{announcement.title}</h4>
                 <p className="text-gray-600">{announcement.content}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Right side - Comment Section */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Leave a Comment</h3>
+          <motion.div 
+            className="bg-white rounded-lg shadow-md p-6"
+            variants={containerVariants}
+          >
+            <motion.h3 
+              className="text-2xl font-semibold text-gray-900 mb-6"
+              variants={itemVariants}
+            >
+              Leave a Comment
+            </motion.h3>
             <textarea
               value={comment}
               onChange={handleCommentChange}
@@ -70,59 +110,90 @@ const SeniorForum = () => {
               className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none mb-4"
               rows="6"
             />
-            <button
+            <motion.button
               onClick={handleCommentSubmit}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Submit Comment
-            </button>
+            </motion.button>
 
             {/* Comments Display */}
-            <div className="mt-8">
-              <h4 className="text-xl font-semibold text-gray-900 mb-4">Comments</h4>
-              {submittedComments.length === 0 ? (
-                <p className="text-gray-500">No comments yet. Be the first to share!</p>
-              ) : (
-                <div className="space-y-4">
-                  {submittedComments.map((comment, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="bg-gray-50 p-4 rounded-lg"
-                    >
-                      <p className="text-gray-700">{comment}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+            <motion.div 
+              className="mt-8"
+              variants={containerVariants}
+            >
+              <motion.h4 
+                className="text-xl font-semibold text-gray-900 mb-4"
+                variants={itemVariants}
+              >
+                Comments
+              </motion.h4>
+              <AnimatePresence>
+                {submittedComments.length === 0 ? (
+                  <motion.p 
+                    className="text-gray-500"
+                    variants={itemVariants}
+                  >
+                    No comments yet. Be the first to share!
+                  </motion.p>
+                ) : (
+                  <motion.div 
+                    className="space-y-4"
+                    variants={containerVariants}
+                  >
+                    {submittedComments.map((comment, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-gray-50 p-4 rounded-lg"
+                      >
+                        <p className="text-gray-700">{comment}</p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Bottom Section - Our Seniors */}
-        <div className="mt-16">
-          <h3 className="text-3xl font-bold text-center text-gray-900 mb-8">Our Seniors</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <motion.div 
+          className="mt-16"
+          variants={containerVariants}
+        >
+          <motion.h3 
+            className="text-3xl font-bold text-center text-gray-900 mb-8"
+            variants={itemVariants}
+          >
+            Our Seniors
+          </motion.h3>
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+            variants={containerVariants}
+          >
             {seniorPhotos.map((photo, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
                 className="relative overflow-hidden rounded-lg shadow-md aspect-w-1 aspect-h-1"
               >
                 <img
                   src={photo}
                   alt={`Senior ${idx + 1}`}
-                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover"
                 />
               </motion.div>
             ))}
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
