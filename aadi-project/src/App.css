@@ -1,0 +1,100 @@
+/* App.css */
+@import "tailwindcss";
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html, #root {
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e9eff6;
+}
+
+.navbar {
+  background-color: #0d1b2a; /* navy blue */
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+
+.notice-board {
+  padding: 1.5rem;
+}
+
+h2, h3 {
+  color: #0d1b2a;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+  height: 280px; /* Fixed height for uniform card size */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Alerts Section */
+.alerts .card {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+}
+
+.news .card {
+  background-color: #d1e7dd;
+  border: 1px solid #aad8c1;
+}
+
+button {
+  background-color: #0d1b2a;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1.1rem;
+  margin-top: auto;
+  width: fit-content;
+}
+
+button:hover {
+  background-color: #3a4a63;
+}
+
+/* Like button with icon */
+button span {
+  margin-right: 8px;
+  font-size: 1.3rem;
+}
+
+h4 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
