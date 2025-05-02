@@ -1,5 +1,9 @@
 /* App.css */
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -97,4 +101,14 @@ h4 {
 p {
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
 }

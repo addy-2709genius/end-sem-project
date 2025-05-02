@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Dummy Data for Senior Announcements
@@ -18,8 +18,8 @@ const seniorPhotos = [
 ];
 
 const SeniorForum = () => {
-  const [comment, setComment] = useState(""); // State to hold the comment input
-  const [submittedComments, setSubmittedComments] = useState([]); // State to hold the list of submitted comments
+  const [comment, setComment] = useState("");
+  const [submittedComments, setSubmittedComments] = useState([]);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -29,147 +29,90 @@ const SeniorForum = () => {
     if (comment.trim() === "") {
       alert("Please write something before submitting!");
     } else {
-      // Add the new comment to the submitted comments list
       setSubmittedComments([...submittedComments, comment]);
-      setComment(""); // Clear the comment input after submission
+      setComment("");
     }
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
-      <h2 style={{ color: "#2a3d66", marginBottom: "1rem" }}>Senior Forum</h2>
-      <p style={{ fontSize: "1.2rem", marginBottom: "2rem" }}>Welcome to the senior discussion space!</p>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">Senior Forum</h2>
+        <p className="text-xl text-gray-600 mb-8">Welcome to the senior discussion space!</p>
 
-      <div style={{ display: "flex", gap: "2rem" }}>
-        {/* Left side - Senior Announcements */}
-        <div style={{ flex: 1 }}>
-          <h3 style={{ color: "#2a3d66", marginBottom: "1.5rem" }}>Senior Announcements</h3>
-          {seniorAnnouncements.map((announcement) => (
-            <div
-              key={announcement.id}
-              style={{
-                backgroundColor: "#f0f8ff",
-                borderRadius: "12px",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-                padding: "1.5rem",
-                marginBottom: "1.5rem",
-              }}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left side - Senior Announcements */}
+          <div className="space-y-6">
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Senior Announcements</h3>
+            {seniorAnnouncements.map((announcement) => (
+              <div
+                key={announcement.id}
+                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              >
+                <h4 className="text-xl font-semibold mb-2">{announcement.title}</h4>
+                <p className="text-gray-600">{announcement.content}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Right side - Comment Section */}
+          <div className="bg-blue-50 rounded-lg shadow-md p-6">
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Leave a Comment about Your Day</h3>
+            <textarea
+              value={comment}
+              onChange={handleCommentChange}
+              placeholder="What's on your mind?"
+              className="w-full p-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
+              rows="6"
+            />
+            <button
+              onClick={handleCommentSubmit}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              <h4 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>{announcement.title}</h4>
-              <p style={{ fontSize: "1.1rem" }}>{announcement.content}</p>
+              Submit Comment
+            </button>
+
+            {/* Displaying Submitted Comments */}
+            <div className="mt-8">
+              <h4 className="text-xl font-semibold text-gray-800 mb-4">Your Comments:</h4>
+              {submittedComments.length === 0 ? (
+                <p className="text-gray-600">No comments yet. Be the first to share!</p>
+              ) : (
+                <ul className="space-y-4">
+                  {submittedComments.map((comment, index) => (
+                    <li
+                      key={index}
+                      className="bg-white p-4 rounded-lg shadow-sm"
+                    >
+                      <p className="text-gray-700">{comment}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          ))}
-        </div>
-
-        {/* Right side - Comment Section */}
-        <div
-          style={{
-            flex: 1,
-            backgroundColor: "#d0e4f3",
-            padding: "1.5rem",
-            borderRadius: "12px",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h3 style={{ color: "#2a3d66", marginBottom: "1.5rem" }}>Leave a Comment about Your Day</h3>
-          <textarea
-            value={comment}
-            onChange={handleCommentChange}
-            placeholder="What's on your mind?"
-            rows="6"
-            cols="30"
-            style={{
-              width: "100%",
-              padding: "1rem",
-              fontSize: "1rem",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              marginBottom: "1rem",
-              resize: "none",
-            }}
-          />
-          <button
-            onClick={handleCommentSubmit}
-            style={{
-              backgroundColor: "#2a3d66",
-              color: "white",
-              border: "none",
-              padding: "0.8rem 1.5rem",
-              borderRadius: "5px",
-              cursor: "pointer",
-              transition: "background-color 0.3s",
-              fontSize: "1rem",
-            }}
-          >
-            Submit Comment
-          </button>
-
-          {/* Displaying Submitted Comments */}
-          <div style={{ marginTop: "2rem" }}>
-            <h4 style={{ color: "#2a3d66" }}>Your Comments:</h4>
-            {submittedComments.length === 0 ? (
-              <p>No comments yet. Be the first to share!</p>
-            ) : (
-              <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
-                {submittedComments.map((comment, index) => (
-                  <li
-                    key={index}
-                    style={{
-                      backgroundColor: "#ffffff",
-                      padding: "1rem",
-                      marginBottom: "1rem",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                    }}
-                  >
-                    <p>{comment}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
         </div>
-      </div>
 
-      {/* Bottom Section - Our Seniors */}
-      <div style={{
-        marginTop: "4rem",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        padding: "2rem",
-        borderRadius: "12px",
-      }}>
-        <h3 style={{
-          color: "white",
-          textAlign: "center",
-          marginBottom: "2rem"
-        }}>Our Seniors</h3>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
-          gap: "1.5rem",
-          justifyItems: "center"
-        }}>
-          {seniorPhotos.map((photo, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ scale: 0.9, opacity: 0 }} // Initial state: smaller and transparent
-              animate={{ scale: 1, opacity: 1 }} // Final state: normal size and fully visible
-              transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.2 }} // Delay each image animation slightly
-              style={{ maxWidth: "200px", borderRadius: "8px", overflow: "hidden" }}
-            >
-              <img
-                src={photo}
-                alt={`Senior ${idx + 1}`}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  borderRadius: "8px",
-                  boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-                  transition: "transform 0.3s",
-                }}
-              />
-            </motion.div>
-          ))}
+        {/* Bottom Section - Our Seniors */}
+        <div className="mt-12 bg-gray-800 rounded-lg p-8">
+          <h3 className="text-2xl font-semibold text-white text-center mb-8">Our Seniors</h3>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {seniorPhotos.map((photo, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.2 }}
+                className="overflow-hidden rounded-lg"
+              >
+                <img
+                  src={photo}
+                  alt={`Senior ${idx + 1}`}
+                  className="w-full h-auto rounded-lg hover:scale-105 transition-transform"
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()]
+  plugins: [react(),tailwindcss(),],
+  build: {
+    rollupOptions: {
+      external: ['react-router-dom', 'framer-motion'],  // Externalize both react-router-dom and framer-motion
+    },
+  },
 });
